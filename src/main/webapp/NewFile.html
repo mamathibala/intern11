@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Input to JSON File</title>
+</head>
+<body>
+
+    <form id="userInputForm">
+        <br><label for="name">Name:</label>
+        <input type="text" name="name" id="name">
+        </br>
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email">
+        </br>
+        <br>
+
+        <label for="age">Age:</label>
+        <input type="number" name="age" id="age">
+        </br>
+        <br>
+
+        <label for="place">Place:</label>
+        <input type="text" name="place" id="place">
+        </br>
+        <br>
+           <button type="button" onclick="getUserInput()">convert to JSON</button>
+           </br>
+    </form>
+
+    <script>
+        function getUserInput() {
+            var formData = {};
+            var formElements = document.getElementById("userInputForm").elements;
+
+            for (var i = 0; i < formElements.length; i++) {
+                var element = formElements[i];
+
+                if (element.type !== "button") {
+                    formData[element.name] = element.value;
+                }
+            }
+
+            var jsonData = JSON.stringify(formData, null, 2);
+            
+            // Creating a Blob (Binary Large Object) from the JSON data
+            var blob = new Blob([jsonData], { type: "application/json" });
+
+            // Creating a temporary anchor element
+            var a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "user_input.json";
+
+            // Appending the anchor to the body and programmatically clicking it
+            document.body.appendChild(a);
+            a.click();
+
+            // Removing the anchor from the body
+            document.body.removeChild(a);
+        }
+    </script>
+
+</body>
+</html>
